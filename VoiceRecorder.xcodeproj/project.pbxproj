@@ -23,6 +23,8 @@
 		F06B925D2872BA6B00A704AF /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B925C2872BA6B00A704AF /* AudioData.swift */; };
 		F06B925F2872BB7B00A704AF /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B925E2872BB7B00A704AF /* DateUtil.swift */; };
 		F06B92612872BF7800A704AF /* Data+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92602872BF7800A704AF /* Data+extension.swift */; };
+		F06B92562872A07C00A704AF /* FireStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92542872A07C00A704AF /* FireStorageService.swift */; };
+		F06B92572872A07C00A704AF /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92552872A07C00A704AF /* FirebaseStorageManager.swift */; };
 		F0D559DC286C1AEB0078BCF3 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D559DB286C1AEB0078BCF3 /* SoundManager.swift */; };
 		F0D559DE286C3A2A0078BCF3 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F0D559DD286C3A2A0078BCF3 /* sound.mp3 */; };
 		F0D766F3286C4A38008A469F /* AVAudioPlayerNode+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D766F2286C4A38008A469F /* AVAudioPlayerNode+extension.swift */; };
@@ -48,6 +50,8 @@
 		F06B925C2872BA6B00A704AF /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
 		F06B925E2872BB7B00A704AF /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		F06B92602872BF7800A704AF /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
+		F06B92542872A07C00A704AF /* FireStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStorageService.swift; sourceTree = "<group>"; };
+		F06B92552872A07C00A704AF /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		F0D559DB286C1AEB0078BCF3 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		F0D559DD286C3A2A0078BCF3 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = sound.mp3; path = Assets.xcassets/sound.dataset/sound.mp3; sourceTree = "<group>"; };
 		F0D766F2286C4A38008A469F /* AVAudioPlayerNode+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioPlayerNode+extension.swift"; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				F06B92582872A66C00A704AF /* FileManager */,
+				F06B92532872A06000A704AF /* Network */,
 				F06B9247287056F500A704AF /* VoiceList */,
 				F0D559DA286C1AD30078BCF3 /* SoundManager */,
 				F00A2C92286BE8D200ED57A8 /* MISC */,
@@ -196,6 +201,13 @@
 				F06B925C2872BA6B00A704AF /* AudioData.swift */,
 			);
 			path = Model;
+		F06B92532872A06000A704AF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F06B92552872A07C00A704AF /* FirebaseStorageManager.swift */,
+				F06B92542872A07C00A704AF /* FireStorageService.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		F0D559DA286C1AD30078BCF3 /* SoundManager */ = {
@@ -296,7 +308,9 @@
 				F0F45B7F286FE8C8006C3F84 /* Recorder.swift in Sources */,
 				DE15E65C28604278003DD2F5 /* AppDelegate.swift in Sources */,
 				DE15E65E28604278003DD2F5 /* SceneDelegate.swift in Sources */,
+				F06B92572872A07C00A704AF /* FirebaseStorageManager.swift in Sources */,
 				F06B924D2870575A00A704AF /* RecordedVoiceTableViewCell.swift in Sources */,
+				F06B92562872A07C00A704AF /* FireStorageService.swift in Sources */,
 				F0F45B81286FE8E7006C3F84 /* RecordCheckViewController.swift in Sources */,
 				F0D766F3286C4A38008A469F /* AVAudioPlayerNode+extension.swift in Sources */,
 				F00A2C98286BEF6C00ED57A8 /* PlayControlView.swift in Sources */,

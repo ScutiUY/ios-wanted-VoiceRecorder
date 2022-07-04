@@ -11,23 +11,67 @@ import UIKit
 
 class FirebaseStorageManager {
     
-    static var url = "gs://voicerecorder-d6222.appspot.com/2020_07_02.caf"
+    private var baseReference: StorageReference!
     
-    static func download(urlString: String, completion: @escaping (Data?) -> Void) { // 싱글톤 유무
-        Storage.storage().reference(forURL: urlString).downloadURL { url, error in
-            guard let data = try? Data(contentsOf: url!) else {
+    
+    init(_ url: String) {
+        baseReference = Storage.storage().reference(forURL: url)
+    }
+    
+    func downloadAll() {
+        
+        baseReference.listAll { (result, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            if let result = result {
+                for item in result.items {
+                    // item.reference로 파일 다운
+                    print("item storage", item.storage)
+                    print("item bucket", item.bucket)
+                    print("item fullPath", item.fullPath)
+                    print("item desc", item.description)
+                    print("item name", item.name)
+                    print("item hash", item.hash)
+                    print("item", item)
+                }
+            }
+        }
+        
+    }
+    
+    func download(urlString: String, completion: @escaping (Data?) -> Void) { // 싱글톤 유무
+        baseReference.downloadURL { url, error in
+            
+            let data = try! Data(contentsOf: url!)
+            completion(data)
+        }
+        
+    }
+    
+    
+    func uploadAudioFile() {
+        
+         
+        let localFile = URL(string: "path/to/image")!
+        
+        // Upload the file to the path "images/rivers.jpg"
+        let uploadTask = baseReference.putFile(from: localFile, metadata: nil) { metadata, error in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
                 return
             }
-            completion(data)
+            // Metadata contains file metadata such as size, content-type.
+            let size = metadata.size
+ 
         }
     }
     
-    
-    static func uploadAudioFile() {
-        guard let assetData = NSDataAsset.init(name: "sound")?.data else { return }
-        StorageMetadata().contentType = "mp3"
-        let audioName = UUID().uuidString + String(Date().timeIntervalSince1970)
+    func downLoadMetaData() {
+        baseReference.getMetadata { metaData, error in
+            print(metaData?.name)
+        }
     }
-    
-    
 }

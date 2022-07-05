@@ -35,9 +35,8 @@ class AudioFileManager {
         
     }
     
-    func getAudioData(fileName: String, completion: @escaping (AudioData?) -> Void) {
-        let data = AudioData(title: fileName, created_Data: Date(), playTime: "")
-        completion(data)
+    func getAudioData(fileName: String) -> URL {
+        return directoryPath.appendingPathComponent(fileName)
     }
     
     func getAudioFilePath(fileName: String) -> URL {

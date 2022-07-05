@@ -20,6 +20,7 @@
 		F00A2C91286BE36800ED57A8 /* VoicePlayingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A2C90286BE36800ED57A8 /* VoicePlayingViewController.swift */; };
 		F00A2C94286BE8E400ED57A8 /* NSLayoutConstraint+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A2C93286BE8E400ED57A8 /* NSLayoutConstraint+extension.swift */; };
 		F00A2C98286BEF6C00ED57A8 /* PlayControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00A2C97286BEF6C00ED57A8 /* PlayControlView.swift */; };
+		F01217532873EFD90006F355 /* AudioVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01217522873EFD90006F355 /* AudioVisualizer.swift */; };
 		F06B92492870572400A704AF /* RecordedVoiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92482870572400A704AF /* RecordedVoiceListViewController.swift */; };
 		F06B924D2870575A00A704AF /* RecordedVoiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B924C2870575A00A704AF /* RecordedVoiceTableViewCell.swift */; };
 		F06B92562872A07C00A704AF /* FireStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92542872A07C00A704AF /* FireStorageService.swift */; };
@@ -50,6 +51,7 @@
 		F00A2C90286BE36800ED57A8 /* VoicePlayingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicePlayingViewController.swift; sourceTree = "<group>"; };
 		F00A2C93286BE8E400ED57A8 /* NSLayoutConstraint+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+extension.swift"; sourceTree = "<group>"; };
 		F00A2C97286BEF6C00ED57A8 /* PlayControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayControlView.swift; sourceTree = "<group>"; };
+		F01217522873EFD90006F355 /* AudioVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVisualizer.swift; sourceTree = "<group>"; };
 		F06B92482870572400A704AF /* RecordedVoiceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVoiceListViewController.swift; sourceTree = "<group>"; };
 		F06B924C2870575A00A704AF /* RecordedVoiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVoiceTableViewCell.swift; sourceTree = "<group>"; };
 		F06B92542872A07C00A704AF /* FireStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStorageService.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 			children = (
 				F0D559DB286C1AEB0078BCF3 /* SoundManager.swift */,
 				F0F45B7E286FE8C8006C3F84 /* Recorder.swift */,
+				F01217522873EFD90006F355 /* AudioVisualizer.swift */,
 			);
 			path = SoundManager;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				F0F45B81286FE8E7006C3F84 /* RecordCheckViewController.swift in Sources */,
 				F0D766F3286C4A38008A469F /* AVAudioPlayerNode+extension.swift in Sources */,
 				68E116D92872B82B00E962FD /* RecordViewController.swift in Sources */,
+				F01217532873EFD90006F355 /* AudioVisualizer.swift in Sources */,
 				F00A2C98286BEF6C00ED57A8 /* PlayControlView.swift in Sources */,
 				68795CA32873437A00B4D6A5 /* SampleFileManager.swift in Sources */,
 				F06B92492870572400A704AF /* RecordedVoiceListViewController.swift in Sources */,

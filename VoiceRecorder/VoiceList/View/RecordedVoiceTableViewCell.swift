@@ -64,5 +64,4 @@ class RecordedVoiceTableViewCell: UITableViewCell {
         audioTitle.text = data.title
         audioPlaytime.text = data.playTime
     }
-
 }

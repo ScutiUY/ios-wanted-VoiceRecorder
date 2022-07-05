@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let mainVC = RecordedVoiceListViewController()
+        let mainVC = RecordViewController()
         window?.rootViewController = mainVC
         window?.makeKeyAndVisible()
         

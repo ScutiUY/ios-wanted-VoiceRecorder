@@ -45,7 +45,7 @@ extension Recorder {
         
         do {
             try session.setCategory(.playAndRecord)
-            try session.setActive(true, options: .notifyOthersOnDeactivation)
+            try session.setActive(true)
         } catch {
             print("[ERROR]")
         }
@@ -71,7 +71,7 @@ extension Recorder {
         
         engine.connect(inputNode, to: mixerNode, format: inputFormat)
         
-        let mixerFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: inputFormat.sampleRate, channels: 1, interleaved: false)
+        let mixerFormat = inputNode.outputFormat(forBus: 0)
         
         engine.connect(mixerNode, to: engine.mainMixerNode, format: mixerFormat)
     }

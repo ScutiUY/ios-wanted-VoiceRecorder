@@ -17,11 +17,12 @@ class SoundManager: NSObject {
     
     var delegate: ReceiveSoundManagerStatus?
     
-    private let playerNode = AVAudioPlayerNode()
     private let engine = AVAudioEngine()
-    private let pitchControl = AVAudioUnitTimePitch()
+    private lazy var inputNode = engine.inputNode
+    private let mixerNode = AVAudioMixerNode()
     
-    //
+    private let playerNode = AVAudioPlayerNode()
+    private let pitchControl = AVAudioUnitTimePitch()
     
     var songLengthSamples: AVAudioFramePosition!
     
@@ -30,7 +31,6 @@ class SoundManager: NSObject {
     var startInSongSeconds: Float = 0
     
     var audioFile: AVAudioFile!
-    //
     
     override init() {
         try? AVAudioSession.sharedInstance().setCategory(.playAndRecord)
@@ -55,7 +55,7 @@ class SoundManager: NSObject {
             //
             
             
-            configureEngine(format: fileFormat)
+            configurePlayEngine(format: fileFormat)
             
             playerNode.scheduleFile(file, at: nil) { [self] in
                 self.delegate?.observeAudioPlayerDidFinishPlaying(playerNode)
@@ -68,7 +68,13 @@ class SoundManager: NSObject {
         
     }
     
-    func configureEngine(format: AVAudioFormat) {
+    func configureRecordEngine(format: AVAudioFormat) {
+        engine.attach(mixerNode)
+        
+        engine.connect(inputNode, to: mixerNode, format: format)
+    }
+    
+    func configurePlayEngine(format: AVAudioFormat) {
         
         engine.attach(playerNode)
         engine.attach(pitchControl)
@@ -82,11 +88,47 @@ class SoundManager: NSObject {
         // 아마 mainMixerNode쪽에 종료 메소드가 포함 되어 있는듯
         
         engine.prepare()
-        
     }
     
     func configurePlayerNode() {
         
+    }
+    
+    private func createAudioFile(filePath: URL) throws -> AVAudioFile {
+        let format = inputNode.outputFormat(forBus: 0)
+        return try AVAudioFile(forWriting: filePath, settings: format.settings)
+    }
+    
+    func startRecord(filePath: URL) {
+        engine.reset()
+        
+        let format = inputNode.outputFormat(forBus: 0)
+        configureRecordEngine(format: format)
+        
+        do {
+            audioFile = try createAudioFile(filePath: filePath)
+        } catch {
+            fatalError()
+        }
+        
+        mixerNode.removeTap(onBus: 0)
+        mixerNode.installTap(onBus: 0, bufferSize: 4096, format: format) { buffer, time in
+            do {
+                try self.audioFile.write(from: buffer)
+            } catch {
+                fatalError()
+            }
+        }
+        
+        do {
+            try engine.start()
+        } catch {
+            fatalError()
+        }
+    }
+    
+    func stopRecord() {
+        engine.stop()
     }
     
     func play() {
@@ -98,6 +140,7 @@ class SoundManager: NSObject {
     func pause() {
         playerNode.pause()
     }
+    
     func stopPlayer() {
         playerNode.stop()
     }
@@ -129,6 +172,7 @@ class SoundManager: NSObject {
     func changePitchValue(value: Float) {
         self.pitchControl.pitch = value
     }
+    
     func changeVolume(value: Float) {
         self.playerNode.volume = value
     }

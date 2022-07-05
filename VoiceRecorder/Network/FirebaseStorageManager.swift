@@ -19,24 +19,26 @@ class FirebaseStorageManager {
         baseReference = Storage.storage().reference(forURL: baseURL)
     }
     
-    func downloadAll() {
+    func downloadAll(completion: @escaping (Result<AudioData, Error>) -> Void) {
         
         baseReference.listAll { (result, error) in
             
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(error))
             }
             
             if let result = result {
                 for item in result.items {
-                    // item.reference로 파일 다운
-                    print("item storage", item.storage)
-                    print("item bucket", item.bucket)
-                    print("item fullPath", item.fullPath)
-                    print("item desc", item.description)
-                    print("item name", item.name)
-                    print("item hash", item.hash)
-                    print("item", item)
+                    item.getMetadata { metaData, error in
+                        if let error = error {
+                            completion(.failure(error))
+                        }
+                        if let metaData = metaData, let customMetadata = metaData.customMetadata {
+                            let audioData = AudioData(title: item.name, playTime: customMetadata["playTime"] ?? "")
+                            completion(.success(audioData))
+                            
+                        }
+                    }
                 }
             }
         }
@@ -44,11 +46,9 @@ class FirebaseStorageManager {
     }
     
     func download(from urlString: String, to localUrl: URL, completion: @escaping (URL?) -> Void) {
-      
         baseReference.child(urlString).write(toFile: localUrl) { url, error in
             completion(url)
         }
-        
     }
     
     

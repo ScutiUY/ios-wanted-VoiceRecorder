@@ -10,7 +10,7 @@ class RecordedVoiceListViewController: UIViewController {
     
     var firestorageManager = FirebaseStorageManager(FireStorageService.baseUrl)
     
-    let audioList = [AudioData(title: "2022_07_02_20_48.m4a", created_Data: Date(), playTime: "03:02"), AudioData(title: "2022_07_02_20_52.m4a", created_Data: Date(), playTime: "02:34")]
+    var audioList = [AudioData(title: "2022_07_02_20_48.m4a", playTime: "03:02"), AudioData(title: "2022_07_02_20_52.m4a", playTime: "02:34")]
     
     lazy var navigationBar: UINavigationBar = {
         var navigationBar = UINavigationBar()
@@ -72,11 +72,17 @@ class RecordedVoiceListViewController: UIViewController {
     }
     
     func initalizeFirebaseAudioFiles() {
-        firestorageManager.downLoadMetaData()
+        firestorageManager.downloadAll { result in
+            switch result {
+            case .success(let data):
+                self.audioList.append(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc func createNewVoiceRecordButtonAction() {
-        
         let recorderVC = RecordCheckViewController()
         self.present(recorderVC, animated: true)
         
@@ -100,8 +106,12 @@ extension RecordedVoiceListViewController: UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let voicePlayVC = VoicePlayingViewController()
+        let title = audioList[indexPath.item].title
         let url = AudioFileManager().directoryPath.appendingPathComponent(audioList[indexPath.item].title)
-        voicePlayVC.fetchRecordedDataFromMainVC(dataUrl: url)
+        firestorageManager.download(from: title, to: url) { url in
+            voicePlayVC.fetchRecordedDataFromMainVC(dataUrl: url!)
+        }
+        
         self.present(voicePlayVC, animated: true)
     }
 

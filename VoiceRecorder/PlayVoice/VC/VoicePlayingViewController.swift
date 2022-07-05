@@ -179,11 +179,11 @@ extension VoicePlayingViewController: SoundButtonActionDelegate {
     func backwardButtonTouchUpinside(sender: UIButton) {
         print("backwardButton Clicked")
         
-        soundManager.seek(to: true)
+        soundManager.skip(forwards: false)
     }
     
     func forwardTouchUpinside(sender: UIButton) {
-        soundManager.seek(to: false)
+        soundManager.skip(forwards: true)
     }
 }
 

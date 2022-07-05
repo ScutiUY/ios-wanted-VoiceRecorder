@@ -160,11 +160,48 @@ class SoundManager: NSObject {
         
     }
     
-    func seek(to: Bool) {
-        
-        
+    func skip(forwards: Bool) {
+      let timeToSeek: Double
+
+      if forwards {
+        timeToSeek = 5
+      } else {
+        timeToSeek = -5
+      }
+
+      seek(to: timeToSeek)
     }
     
+    private func seek(to time: Double) {
+      guard let audioFile = audioFile else {
+        return
+      }
+
+      let offset = AVAudioFramePosition(time * audioSampleRate)
+      seekFrame = currentPosition + offset
+      seekFrame = max(seekFrame, 0)
+      seekFrame = min(seekFrame, audioLengthSamples)
+      currentPosition = seekFrame
+
+      let wasPlaying = playerNode.isPlaying
+        playerNode.stop()
+
+      if currentPosition < audioLengthSamples {
+        let frameCount = AVAudioFrameCount(audioLengthSamples - seekFrame)
+          playerNode.scheduleSegment(
+          audioFile,
+          startingFrame: seekFrame,
+          frameCount: frameCount,
+          at: nil
+        ) {
+          
+        }
+
+        if wasPlaying {
+            playerNode.play()
+        }
+      }
+    }
     
     func changePitchValue(value: Float) {
         self.pitchControl.pitch = value

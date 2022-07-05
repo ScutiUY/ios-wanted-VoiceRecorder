@@ -132,7 +132,7 @@ class VoicePlayingViewController: UIViewController {
             recordedVoiceTitle.text = "Title"
         }
         
-        soundManager.initializedEngine(url: dataUrl)
+        soundManager.initializeSoundManager(url: dataUrl, type: .playBack)
         
     }
     
@@ -156,9 +156,9 @@ class VoicePlayingViewController: UIViewController {
         if pitchSegmentController.selectedSegmentIndex == 0 {
             soundManager.changePitchValue(value: 0)
         } else if pitchSegmentController.selectedSegmentIndex == 1 {
-            soundManager.changePitchValue(value: 50)
+            soundManager.changePitchValue(value: 100)
         } else {
-            soundManager.changePitchValue(value: -50)
+            soundManager.changePitchValue(value: -100)
         }
         
     }
@@ -199,7 +199,7 @@ extension VoicePlayingViewController: ReceiveSoundManagerStatus {
             // 임시 초기화 다시 함수와 data형식에 맞춰서 프로퍼티 만들어야함 06.30 이후 업데이트 예정
             let filePath = Bundle.main.path(forResource: "sound", ofType: ".mp3")
             let fileUrl = URL(fileURLWithPath: filePath!)
-            self.soundManager.stopPlayer()
+            //self.soundManager.stopPlayer()
             //self.soundManager.initializedEngine(url: fileUrl)
         }
         

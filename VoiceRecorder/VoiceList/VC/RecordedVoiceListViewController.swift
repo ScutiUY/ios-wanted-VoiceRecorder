@@ -8,11 +8,11 @@ import AVFoundation
 
 class RecordedVoiceListViewController: UIViewController {
     
-    var firestorageManager = FirebaseStorageManager(FireStorageService.baseUrl)
+    private let firestorageManager = FirebaseStorageManager()
     
-    var audioList = [AudioData(title: "2022_07_02_20_48.m4a", playTime: "03:02"), AudioData(title: "2022_07_02_20_52.m4a", playTime: "02:34")]
+    private var audioList = [AudioData(title: "2020_07_06_13_23_03.m4a", playTime: "03:02"), AudioData(title: "2022_07_02_20_52.m4a", playTime: "02:34")]
     
-    lazy var navigationBar: UINavigationBar = {
+    var navigationBar: UINavigationBar = {
         var navigationBar = UINavigationBar()
         return navigationBar
     }()
@@ -29,14 +29,14 @@ class RecordedVoiceListViewController: UIViewController {
         super.viewDidLoad()
         setNavgationBarProperties()
         configureRecordedVoiceListLayout()
-        
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("view Will Appear")
+        getAudioMetaData()
     }
     
-    func setNavgationBarProperties() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    private func setNavgationBarProperties() {
 
         let navItem = UINavigationItem(title: "Voice Recorder")
         let doneItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewVoiceRecordButtonAction))
@@ -46,7 +46,7 @@ class RecordedVoiceListViewController: UIViewController {
         navigationBar.setItems([navItem], animated: false)
     }
     
-    func configureRecordedVoiceListLayout() {
+    private func configureRecordedVoiceListLayout() {
         
         view.backgroundColor = .white
         
@@ -71,8 +71,8 @@ class RecordedVoiceListViewController: UIViewController {
         
     }
     
-    func initalizeFirebaseAudioFiles() {
-        firestorageManager.downloadAll { result in
+    private func getAudioMetaData() {
+        firestorageManager.downloadAllMetaData { result in
             switch result {
             case .success(let data):
                 self.audioList.append(data)
@@ -83,8 +83,8 @@ class RecordedVoiceListViewController: UIViewController {
     }
     
     @objc func createNewVoiceRecordButtonAction() {
-        let recorderVC = RecordCheckViewController()
-        self.present(recorderVC, animated: true)
+        //let recorderVC = RecordCheckViewController()
+        //self.present(recorderVC, animated: true)
         
     }
 }
@@ -98,7 +98,7 @@ extension RecordedVoiceListViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = recordedVoiceTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecordedVoiceTableViewCell
         
-        cell.setTableViewCellLayout()
+        cell.setTableViewCellLayout() // cell 안으로 집어 넣기
         cell.fetchAudioLabelData(data: audioList[indexPath.row])
         
         return cell
@@ -108,7 +108,7 @@ extension RecordedVoiceListViewController: UITableViewDataSource, UITableViewDel
         let voicePlayVC = VoicePlayingViewController()
         let title = audioList[indexPath.item].title
         let url = AudioFileManager().directoryPath.appendingPathComponent(audioList[indexPath.item].title)
-        firestorageManager.download(from: title, to: url) { url in
+        firestorageManager.downloadAudioUrl(from: title, to: url) { url in
             voicePlayVC.fetchRecordedDataFromMainVC(dataUrl: url!)
         }
         
@@ -119,3 +119,4 @@ extension RecordedVoiceListViewController: UITableViewDataSource, UITableViewDel
         return 50
     }
 }
+// 삭제 할때 셀에서 삭제 파일에서 삭제 스토리지에서 삭제

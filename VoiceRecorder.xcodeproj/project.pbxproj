@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		68795CA32873437A00B4D6A5 /* SampleFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68795CA22873437A00B4D6A5 /* SampleFileManager.swift */; };
-		68E116DC2872C54800E962FD /* Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E116DB2872C54800E962FD /* Firebase.swift */; };
+		68BF991228703C0500BE55CF /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BF991128703C0500BE55CF /* SampleViewController.swift */; };
+		68E116D92872B82B00E962FD /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E116D82872B82B00E962FD /* RecordViewController.swift */; };
 		68F5662C286BD2FC0068A5CE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 68F5662B286BD2FC0068A5CE /* FirebaseStorage */; };
 		68F5665C286ED6560068A5CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F5665B286ED6560068A5CE /* GoogleService-Info.plist */; };
 		DE15E65C28604278003DD2F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE15E65B28604278003DD2F5 /* AppDelegate.swift */; };
@@ -26,8 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		68795CA22873437A00B4D6A5 /* SampleFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleFileManager.swift; sourceTree = "<group>"; };
-		68E116DB2872C54800E962FD /* Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firebase.swift; sourceTree = "<group>"; };
+		68BF991128703C0500BE55CF /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
+		68E116D82872B82B00E962FD /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		68F5665B286ED6560068A5CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DE15E65828604278003DD2F5 /* VoiceRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE15E65B28604278003DD2F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -57,13 +57,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		68E116DA2872C53300E962FD /* SampleNetwork */ = {
+		68BF990F286F1A9B00BE55CF /* RecordVoice */ = {
 			isa = PBXGroup;
 			children = (
-				68E116DB2872C54800E962FD /* Firebase.swift */,
-				68795CA22873437A00B4D6A5 /* SampleFileManager.swift */,
+				68BF9910286F1AB400BE55CF /* VC */,
 			);
-			path = SampleNetwork;
+			path = RecordVoice;
+			sourceTree = "<group>";
+		};
+		68BF9910286F1AB400BE55CF /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				68E116D82872B82B00E962FD /* RecordViewController.swift */,
+				F0F45B80286FE8E7006C3F84 /* RecordCheckViewController.swift */,
+				68BF991128703C0500BE55CF /* SampleViewController.swift */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 		DE15E64F28604278003DD2F5 = {
@@ -86,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				F06B92582872A66C00A704AF /* FileManager */,
-				68E116DA2872C53300E962FD /* SampleNetwork */,
+				F06B92532872A06000A704AF /* Network */,
 				F06B9247287056F500A704AF /* VoiceList */,
 				F0D559DA286C1AD30078BCF3 /* SoundManager */,
 				F00A2C92286BE8D200ED57A8 /* MISC */,
@@ -254,7 +263,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68E116DC2872C54800E962FD /* Firebase.swift in Sources */,
 				F00A2C91286BE36800ED57A8 /* VoicePlayingViewController.swift in Sources */,
 				F0D559DC286C1AEB0078BCF3 /* SoundManager.swift in Sources */,
 				F06B925A2872A68400A704AF /* AudioFileManager.swift in Sources */,
@@ -263,7 +271,6 @@
 				DE15E65E28604278003DD2F5 /* SceneDelegate.swift in Sources */,
 				F06B924D2870575A00A704AF /* RecordedVoiceTableViewCell.swift in Sources */,
 				F00A2C98286BEF6C00ED57A8 /* PlayControlView.swift in Sources */,
-				68795CA32873437A00B4D6A5 /* SampleFileManager.swift in Sources */,
 				F06B92492870572400A704AF /* RecordedVoiceListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

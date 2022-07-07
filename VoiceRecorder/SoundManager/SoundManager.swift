@@ -91,8 +91,8 @@ class SoundManager {
         }
         
     }
-    
     // MARK: - Set Engine
+    
     private func configurePlayEngine(format: AVAudioFormat) {
         
         engine.reset()
@@ -102,19 +102,6 @@ class SoundManager {
         engine.connect(playerNode, to: pitchControl, format: engine.mainMixerNode.outputFormat(forBus: 0))
         engine.connect(pitchControl, to: engine.mainMixerNode, format: engine.mainMixerNode.outputFormat(forBus: 0))
         
-        engine.prepare()
-        
-        do {
-            try engine.start()
-        } catch let e as NSError {
-            delegate?.audioEngineInitializeErrorHandler(error: e)
-        }
-    }
-    
-    private func configureRecordEngine(format: AVAudioFormat) {
-        engine.reset()
-        engine.attach(mixerNode)
-        engine.connect(engine.inputNode, to: mixerNode, format: format)
         engine.prepare()
         
         do {

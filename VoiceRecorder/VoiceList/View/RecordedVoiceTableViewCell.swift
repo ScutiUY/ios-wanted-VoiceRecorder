@@ -62,7 +62,7 @@ class RecordedVoiceTableViewCell: UITableViewCell {
     
     func fetchAudioLabelData(data: AudioData) {
         audioTitle.text = data.title
-        audioPlaytime.text = data.playTime
+        audioPlaytime.text = data.duration
     }
 
 }

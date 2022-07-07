@@ -8,9 +8,9 @@ import AVFoundation
 
 class RecordedVoiceListViewController: UIViewController {
     
-    private let firestorageManager = FirebaseStorageManager()
+    var firestorageManager = FirebaseStorageManager()
     
-    private var audioList = [AudioData(title: "2020_07_06_13_23_03.m4a", playTime: "03:02"), AudioData(title: "2022_07_02_20_52.m4a", playTime: "02:34")]
+    var audioList: [AudioData] = []
     
     var navigationBar: UINavigationBar = {
         var navigationBar = UINavigationBar()
@@ -27,9 +27,10 @@ class RecordedVoiceListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initalizeFirebaseAudioFiles()
         setNavgationBarProperties()
         configureRecordedVoiceListLayout()
-        getAudioMetaData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,24 +69,24 @@ class RecordedVoiceListViewController: UIViewController {
             recordedVoiceTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             recordedVoiceTableView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
-        
     }
     
-    private func getAudioMetaData() {
-        firestorageManager.downloadAllMetaData { result in
+    func initalizeFirebaseAudioFiles() {
+        firestorageManager.downloadAll { result in
             switch result {
-            case .success(let data):
+            case .success(let data) :
                 self.audioList.append(data)
-            case .failure(let error):
-                print(error)
+                self.recordedVoiceTableView.reloadData()
+                print(data.duration, data.title, "here")
+            case .failure(let error) :
+                print(error.localizedDescription)
             }
         }
     }
     
     @objc func createNewVoiceRecordButtonAction() {
-        //let recorderVC = RecordCheckViewController()
-        //self.present(recorderVC, animated: true)
-        
+        let recorderVC = RecordViewController()
+        self.present(recorderVC, animated: true)
     }
 }
 

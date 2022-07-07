@@ -14,7 +14,6 @@ protocol SoundButtonActionDelegate {
     func forwardTouchUpinside(sender: UIButton)
 }
 
-
 class PlayControlView: UIStackView {
     
     var delegate: SoundButtonActionDelegate?
@@ -42,9 +41,9 @@ class PlayControlView: UIStackView {
     private var backwardButton: UIButton = {
         var button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
-        
         let largebackwardImage = UIImage(systemName: "gobackward.5", withConfiguration: largeConfig)
         button.setImage(largebackwardImage, for: .normal)
+        
         return button
     }()
     

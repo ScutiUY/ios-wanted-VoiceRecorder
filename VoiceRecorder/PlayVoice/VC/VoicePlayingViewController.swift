@@ -117,11 +117,9 @@ class VoicePlayingViewController: UIViewController {
         
     }
     
-    //TODO: - Model 만들어서 들어와야 함. 06/29 레이아웃만 확인중 ~ 업데이트 예정
     func fetchRecordedDataFromMainVC(dataUrl: URL) {
         setSoundManager()
         recordedVoiceTitle.text = "\(dataUrl.lastPathComponent.split(separator: ".")[0])"
-        print("init")
         soundManager.initializeSoundManager(url: dataUrl, type: .playBack)
     }
     

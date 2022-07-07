@@ -19,7 +19,16 @@ class PlayControlView: UIStackView {
     
     var delegate: SoundButtonActionDelegate?
     
-    var playButton: UIButton = {
+    var isSelected: Bool {
+        get {
+            return playButton.isSelected
+        }
+        set {
+            playButton.isSelected = newValue
+        }
+    }
+    
+    private var playButton: UIButton = {
         var button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
         let largePlayImage = UIImage(systemName: "play", withConfiguration: largeConfig)
@@ -30,7 +39,7 @@ class PlayControlView: UIStackView {
         return button
     }()
     
-    var backwardButton: UIButton = {
+    private var backwardButton: UIButton = {
         var button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
         
@@ -39,7 +48,7 @@ class PlayControlView: UIStackView {
         return button
     }()
     
-    var forwardButton: UIButton = {
+    private var forwardButton: UIButton = {
         var button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
         let largeforkwardImage = UIImage(systemName: "goforward.5", withConfiguration: largeConfig)
@@ -59,13 +68,13 @@ class PlayControlView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureProperties() {
+    private func configureProperties() {
         self.axis = .horizontal
         self.distribution = .equalSpacing
         self.alignment = .center
     }
     
-    func setLayoutOfPlayControlView() {
+    private func setLayoutOfPlayControlView() {
         
         playButton.translatesAutoresizingMaskIntoConstraints = false
         backwardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -90,7 +99,7 @@ class PlayControlView: UIStackView {
         
     }
     
-    func addTargetToButtons() {
+    private func addTargetToButtons() {
         playButton.addTarget(self, action: #selector(playButtonHandler), for: .touchUpInside)
         backwardButton.addTarget(self, action: #selector(backwardButtonHandler), for: .touchUpInside)
         forwardButton.addTarget(self, action: #selector(forwardButtonHandler), for: .touchUpInside)

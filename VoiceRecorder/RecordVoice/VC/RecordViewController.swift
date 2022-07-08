@@ -19,6 +19,15 @@ class RecordViewController: UIViewController {
     
     private var isStartRecording: Bool = false
     
+    private var recordButton: UIButton = {
+        var button = UIButton()
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
+        let largeRecordImage = UIImage(systemName: "circle.fill", withConfiguration: largeConfig)
+        button.setImage(largeRecordImage, for: .normal)
+        button.tintColor = .systemRed
+        return button
+    }()
+    
     private var visualizer: AudioVisualizeView = {
         var visualizer = AudioVisualizeView()
         visualizer.translatesAutoresizingMaskIntoConstraints = false
@@ -28,35 +37,17 @@ class RecordViewController: UIViewController {
     private lazy var playControlView: PlayControlView = {
         var view = PlayControlView()
         view.delegate = self
+        view.playButton(isActivate: false)
         return view
-    }()
-    
-    private var sliderFrequency: UISlider = {
-        let slider = UISlider()
-        slider.minimumValue = 20000
-        slider.maximumValue = 40000
-        slider.value = 30000
-        return slider
-    }()
-    
-    private var recordButton: UIButton = {
-        let button = UIButton()
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
-        let largeRecordImage = UIImage(systemName: "circle.fill", withConfiguration: largeConfig)
-        button.setImage(largeRecordImage, for: .normal)
-        button.tintColor = .systemRed
-        return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setLayout()
         setAudio()
         soundManager.visualDelegate = self
-        
-        recordButton.addTarget(self, action: #selector(controlRecord), for: .touchUpInside)
-        sliderFrequency.addTarget(self, action: #selector(onChangeValueSlider(sender:)), for: UIControl.Event.valueChanged)
+        soundManager.delegate = self
+        recordButton.addTarget(self, action: #selector(control), for: .touchUpInside)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -66,36 +57,29 @@ class RecordViewController: UIViewController {
     private func setLayout() {
         view.backgroundColor = .white
         
-        playControlView.translatesAutoresizingMaskIntoConstraints = false
-        sliderFrequency.translatesAutoresizingMaskIntoConstraints = false
         recordButton.translatesAutoresizingMaskIntoConstraints = false
+        playControlView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(visualizer)
-        view.addSubview(playControlView)
-        view.addSubview(sliderFrequency)
         view.addSubview(recordButton)
+        view.addSubview(playControlView)
+        view.addSubview(visualizer)
         
         NSLayoutConstraint.activate([
             
             visualizer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             visualizer.centerYAnchor.constraint(equalTo: view.centerYAnchor).constraintWithMultiplier(0.5),
-            visualizer.widthAnchor.constraint(equalTo: view.widthAnchor),
             visualizer.heightAnchor.constraint(equalToConstant: 200),
-            
-            playControlView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            playControlView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            playControlView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            playControlView.heightAnchor.constraint(equalToConstant: 100),
-            
-            sliderFrequency.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            sliderFrequency.topAnchor.constraint(equalTo: playControlView.bottomAnchor, constant: 40),
-            sliderFrequency.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            sliderFrequency.heightAnchor.constraint(equalToConstant: 30),
+            visualizer.widthAnchor.constraint(equalTo: view.widthAnchor),
             
             recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             recordButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             recordButton.widthAnchor.constraint(equalToConstant: 80),
-            recordButton.heightAnchor.constraint(equalToConstant: 80)
+            recordButton.heightAnchor.constraint(equalToConstant: 80),
+            
+            playControlView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            playControlView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            playControlView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            playControlView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
@@ -105,7 +89,8 @@ class RecordViewController: UIViewController {
                 let localUrl = audioFileManager.getAudioFilePath(fileName: urlString)
                 soundManager.initializeSoundManager(url: localUrl, type: .record)
             } else {
-                print("녹음 권한이 거부되었습니다.")
+                // 녹음 권한 거부
+                fatalError()
             }
         }
     }
@@ -129,24 +114,21 @@ class RecordViewController: UIViewController {
     }
     
     // 녹음 시작 & 정지 컨트롤
-    @objc private func controlRecord() {
+    @objc private func control() {
         isStartRecording = !isStartRecording
+        playControlView.playButton(isActivate: !isStartRecording)
         recordButtonToggle()
         
         if isStartRecording { // 녹음 시작일 때
             soundManager.startRecord()
         } else { // 녹음 끝일 때
             soundManager.stopRecord()
-            
+            visualizer.moveToCenter()
+            playControlView.playButton(isActivate: true)
             let localUrl = audioFileManager.getAudioFilePath(fileName: urlString)
-            print(localUrl)
             passData(localUrl: localUrl)
             soundManager.initializeSoundManager(url: localUrl, type: .playBack)
         }
-    }
-    
-    @objc func onChangeValueSlider(sender: UISlider) {
-        soundManager.frequency = sender.value
     }
 }
 
@@ -197,4 +179,27 @@ extension RecordViewController: Visualizerable {
     func processAudioBuffer(buffer: AVAudioPCMBuffer) {
         visualizer.processAudioData(buffer: buffer)
     }
+}
+
+extension RecordViewController: SoundManagerStatusReceivable {
+    func audioPlayerCurrentStatus(isPlaying: Bool) {
+        soundManager.removeTap()
+        self.playControlView.isSelected = false
+    }
+    
+    func audioFileInitializeErrorHandler(error: Error) {
+        let alert = UIAlertController(title: "파일 초기화 실패!", message: "오류코드: \(error.localizedDescription)", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
+    
+    
+    func audioEngineInitializeErrorHandler(error: Error) {
+        let alert = UIAlertController(title: "엔진 초기화 실패!", message: "오류코드: \(error.localizedDescription)", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
+    
 }

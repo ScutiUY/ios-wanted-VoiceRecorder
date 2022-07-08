@@ -53,10 +53,10 @@ class PlayControlView: UIStackView {
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
         let largeforkwardImage = UIImage(systemName: "goforward.5", withConfiguration: largeConfig)
         button.setImage(largeforkwardImage, for: .normal)
-     
+        
         return button
     }()
-        
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureProperties()
@@ -116,5 +116,9 @@ class PlayControlView: UIStackView {
     }
     @objc func forwardButtonHandler() {
         delegate?.forwardTouchUpinside(sender: forwardButton)
+    }
+    
+    func playButton(isActivate: Bool) {
+        playButton.isEnabled = isActivate
     }
 }

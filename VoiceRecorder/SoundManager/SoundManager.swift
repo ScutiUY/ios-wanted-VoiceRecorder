@@ -150,7 +150,7 @@ class SoundManager {
         var convertedFrame = frame
         
         convertedFrame = max(frame, 0)
-        convertedFrame = min(convertedFrame, length)
+        convertedFrame = min(frame, length)
         
         return convertedFrame
     }
@@ -290,9 +290,11 @@ extension SoundManager {
     }
     
     func startRecord() {
-        isEnginePrepared = true
+        engine.reset()
         
         let format = inputNode.outputFormat(forBus: 0)
+        
+        setFrequency()
         
         do {
             audioFile = try createAudioFile(filePath: fileUrl)
@@ -300,9 +302,8 @@ extension SoundManager {
             fatalError()
         }
         
-        mixerNode.installTap(onBus: 0, bufferSize: 4096, format: format) { buffer, time in
+        inputNode.installTap(onBus: 0, bufferSize: 4096, format: format) { buffer, time in
             do {
-                self.setFrequency()
                 try self.audioFile.write(from: buffer)
                 self.visualDelegate.processAudioBuffer(buffer: buffer)
             } catch {
@@ -312,6 +313,7 @@ extension SoundManager {
         
         do {
             try engine.start()
+            isEnginePrepared = true
         } catch {
             fatalError()
         }

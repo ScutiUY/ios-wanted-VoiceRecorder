@@ -17,10 +17,19 @@ class AudioVisualizeView: UIScrollView {
         return audioPlotView
     }()
     
+    private var centerPlot: UIView = {
+        var view = UIView()
+        view.backgroundColor = .black
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderWidth = 1
+        view.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
+        return view
+    }()
+    
     init() {
         super.init(frame: .zero)
         self.indicatorStyle = .white
-        self.backgroundColor = .black
+        self.backgroundColor = .gray
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
         self.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -30,7 +39,7 @@ class AudioVisualizeView: UIScrollView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.indicatorStyle = .white
-        self.backgroundColor = .black
+        self.backgroundColor = .gray
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
         self.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -45,15 +54,22 @@ class AudioVisualizeView: UIScrollView {
     
     private func setAudioPlotView() {
         self.addSubview(audioPlotView)
+        self.addSubview(centerPlot)
         NSLayoutConstraint.activate([
+            
+            centerPlot.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            centerPlot.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            centerPlot.widthAnchor.constraint(equalToConstant: 1),
+            centerPlot.heightAnchor.constraint(equalTo: self.heightAnchor),
             
             audioPlotView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             audioPlotView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             audioPlotView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             audioPlotView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             audioPlotView.heightAnchor.constraint(equalTo: self.heightAnchor)
-        
+            
         ])
+        
     }
     
     private func rms(data: UnsafeMutablePointer<Float>, frameLength: UInt) -> Float {
@@ -73,11 +89,13 @@ class AudioVisualizeView: UIScrollView {
             self.audioPlotView.setNeedsDisplay()
         }
     }
-    func udpateVisualizerContentSize() {
-        self.contentSize.width += 5
-    }
+    
     func getWaveformData() -> [Int] {
         return audioPlotView.waveforms
+    }
+    
+    func moveToCenter() {
+        //audioPlotView.moveToCenter()
     }
     
 }

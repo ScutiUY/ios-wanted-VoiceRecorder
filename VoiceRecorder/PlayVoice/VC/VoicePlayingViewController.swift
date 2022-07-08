@@ -83,7 +83,7 @@ class VoicePlayingViewController: UIViewController {
         addViewsActionsToVC()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        guard soundManager != nil else { return }
+        guard soundManager != nil || soundManager.isEnginePrepared else { return }
         soundManager.stop()
         soundManager.removeTap()
         playControlView.isSelected = false

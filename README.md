@@ -24,7 +24,7 @@
 
 ## ⏱️ 개발 기간 및 사용 기술
 
-- 개발 기간: 2022.07.27 ~ 2022.08.09 (2주)
+- 개발 기간: 2022.06.27 ~ 2022.07.09 (2주)
 - 사용 기술:  `UIKit`, `FirebaseStorage`, `AVAudioEngine`, `AVAudioUnitEQ`, `AVFAudio`, `Accelerate`,  `MVC`
 
 <br>

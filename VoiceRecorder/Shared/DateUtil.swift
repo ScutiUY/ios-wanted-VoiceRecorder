@@ -8,6 +8,7 @@
 import Foundation
 
 class DateUtil {
+    
     var currentDate: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy. MM. dd HH:mm:ss"

@@ -33,7 +33,7 @@ class RecordedVoiceTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setTableViewCellLayout() {
+    private func setTableViewCellLayout() {
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         audioTitle.translatesAutoresizingMaskIntoConstraints = false
         audioPlaytime.translatesAutoresizingMaskIntoConstraints = false

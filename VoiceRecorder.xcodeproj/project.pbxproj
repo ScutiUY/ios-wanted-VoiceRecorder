@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		688BD86E2877FBF700D9264A /* Notification+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688BD86D2877FBF700D9264A /* Notification+extension.swift */; };
+		688035EB287916F300DC9047 /* FrequencyControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688035EA287916F300DC9047 /* FrequencyControlView.swift */; };
+		68C0E0F02879B659008469A4 /* PlayTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0E0EF2879B659008469A4 /* PlayTime.swift */; };
 		68E116D92872B82B00E962FD /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E116D82872B82B00E962FD /* RecordViewController.swift */; };
 		68F5662C286BD2FC0068A5CE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 68F5662B286BD2FC0068A5CE /* FirebaseStorage */; };
 		68F5665C286ED6560068A5CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F5665B286ED6560068A5CE /* GoogleService-Info.plist */; };
@@ -22,19 +23,16 @@
 		F018C2A12877FC7900D7C9BE /* AudioPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018C2A02877FC7900D7C9BE /* AudioPlotView.swift */; };
 		F06B92492870572400A704AF /* RecordedVoiceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92482870572400A704AF /* RecordedVoiceListViewController.swift */; };
 		F06B924D2870575A00A704AF /* RecordedVoiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B924C2870575A00A704AF /* RecordedVoiceTableViewCell.swift */; };
-		F06B92562872A07C00A704AF /* FireStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92542872A07C00A704AF /* FireStorageService.swift */; };
 		F06B92572872A07C00A704AF /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92552872A07C00A704AF /* FirebaseStorageManager.swift */; };
 		F06B925A2872A68400A704AF /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92592872A68400A704AF /* AudioFileManager.swift */; };
 		F06B925D2872BA6B00A704AF /* AudioMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B925C2872BA6B00A704AF /* AudioMetaData.swift */; };
 		F06B925F2872BB7B00A704AF /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B925E2872BB7B00A704AF /* DateUtil.swift */; };
-		F06B92612872BF7800A704AF /* Data+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06B92602872BF7800A704AF /* Data+extension.swift */; };
 		F0D559DC286C1AEB0078BCF3 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D559DB286C1AEB0078BCF3 /* SoundManager.swift */; };
-		F0D559DE286C3A2A0078BCF3 /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F0D559DD286C3A2A0078BCF3 /* sound.mp3 */; };
-		F0D766F3286C4A38008A469F /* AVAudioPlayerNode+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D766F2286C4A38008A469F /* AVAudioPlayerNode+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		688BD86D2877FBF700D9264A /* Notification+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+extension.swift"; sourceTree = "<group>"; };
+		688035EA287916F300DC9047 /* FrequencyControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyControlView.swift; sourceTree = "<group>"; };
+		68C0E0EF2879B659008469A4 /* PlayTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayTime.swift; sourceTree = "<group>"; };
 		68E116D82872B82B00E962FD /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		68F5665B286ED6560068A5CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DE15E65828604278003DD2F5 /* VoiceRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,15 +48,11 @@
 		F018C2A02877FC7900D7C9BE /* AudioPlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlotView.swift; sourceTree = "<group>"; };
 		F06B92482870572400A704AF /* RecordedVoiceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVoiceListViewController.swift; sourceTree = "<group>"; };
 		F06B924C2870575A00A704AF /* RecordedVoiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedVoiceTableViewCell.swift; sourceTree = "<group>"; };
-		F06B92542872A07C00A704AF /* FireStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStorageService.swift; sourceTree = "<group>"; };
 		F06B92552872A07C00A704AF /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		F06B92592872A68400A704AF /* AudioFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioFileManager.swift; sourceTree = "<group>"; };
 		F06B925C2872BA6B00A704AF /* AudioMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMetaData.swift; sourceTree = "<group>"; };
 		F06B925E2872BB7B00A704AF /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
-		F06B92602872BF7800A704AF /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
 		F0D559DB286C1AEB0078BCF3 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-		F0D559DD286C3A2A0078BCF3 /* sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = sound.mp3; path = Assets.xcassets/sound.dataset/sound.mp3; sourceTree = "<group>"; };
-		F0D766F2286C4A38008A469F /* AVAudioPlayerNode+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioPlayerNode+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +67,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		688035E92879164800DC9047 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				688035EA287916F300DC9047 /* FrequencyControlView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		68BF990F286F1A9B00BE55CF /* RecordVoice */ = {
 			isa = PBXGroup;
 			children = (
 				68BF9910286F1AB400BE55CF /* VC */,
+				688035E92879164800DC9047 /* View */,
 			);
 			path = RecordVoice;
 			sourceTree = "<group>";
@@ -108,22 +111,16 @@
 		DE15E65A28604278003DD2F5 /* VoiceRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				F0D7EFEE2879A89400E39107 /* Application */,
 				F018C29B2877FB4700D7C9BE /* Visualizer */,
 				F06B925B2872BA4D00A704AF /* Model */,
 				F06B92582872A66C00A704AF /* FileManager */,
 				F06B92532872A06000A704AF /* Network */,
 				F06B9247287056F500A704AF /* VoiceList */,
 				F0D559DA286C1AD30078BCF3 /* SoundManager */,
-				F00A2C92286BE8D200ED57A8 /* MISC */,
 				68BF990F286F1A9B00BE55CF /* RecordVoice */,
 				F00A2C8F286BE20400ED57A8 /* PlayVoice */,
-				DE15E65B28604278003DD2F5 /* AppDelegate.swift */,
-				DE15E65D28604278003DD2F5 /* SceneDelegate.swift */,
-				F0D559DD286C3A2A0078BCF3 /* sound.mp3 */,
-				DE15E66428604279003DD2F5 /* Assets.xcassets */,
-				DE15E66628604279003DD2F5 /* LaunchScreen.storyboard */,
-				DE15E66928604279003DD2F5 /* Info.plist */,
-				68F5665B286ED6560068A5CE /* GoogleService-Info.plist */,
+				F0D7EFED2879A85900E39107 /* Shared */,
 			);
 			path = VoiceRecorder;
 			sourceTree = "<group>";
@@ -135,18 +132,6 @@
 				F00A2C95286BEEB400ED57A8 /* View */,
 			);
 			path = PlayVoice;
-			sourceTree = "<group>";
-		};
-		F00A2C92286BE8D200ED57A8 /* MISC */ = {
-			isa = PBXGroup;
-			children = (
-				F0D766F2286C4A38008A469F /* AVAudioPlayerNode+extension.swift */,
-				688BD86D2877FBF700D9264A /* Notification+extension.swift */,
-				F00A2C93286BE8E400ED57A8 /* NSLayoutConstraint+extension.swift */,
-				F06B925E2872BB7B00A704AF /* DateUtil.swift */,
-				F06B92602872BF7800A704AF /* Data+extension.swift */,
-			);
-			path = MISC;
 			sourceTree = "<group>";
 		};
 		F00A2C95286BEEB400ED57A8 /* View */ = {
@@ -203,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				F06B92552872A07C00A704AF /* FirebaseStorageManager.swift */,
-				F06B92542872A07C00A704AF /* FireStorageService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -228,8 +212,31 @@
 			isa = PBXGroup;
 			children = (
 				F0D559DB286C1AEB0078BCF3 /* SoundManager.swift */,
+				68C0E0EF2879B659008469A4 /* PlayTime.swift */,
 			);
 			path = SoundManager;
+			sourceTree = "<group>";
+		};
+		F0D7EFED2879A85900E39107 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				F06B925E2872BB7B00A704AF /* DateUtil.swift */,
+				F00A2C93286BE8E400ED57A8 /* NSLayoutConstraint+extension.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		F0D7EFEE2879A89400E39107 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DE15E65B28604278003DD2F5 /* AppDelegate.swift */,
+				DE15E65D28604278003DD2F5 /* SceneDelegate.swift */,
+				DE15E66428604279003DD2F5 /* Assets.xcassets */,
+				DE15E66628604279003DD2F5 /* LaunchScreen.storyboard */,
+				DE15E66928604279003DD2F5 /* Info.plist */,
+				68F5665B286ED6560068A5CE /* GoogleService-Info.plist */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,7 +305,6 @@
 			files = (
 				DE15E66828604279003DD2F5 /* LaunchScreen.storyboard in Resources */,
 				DE15E66528604279003DD2F5 /* Assets.xcassets in Resources */,
-				F0D559DE286C3A2A0078BCF3 /* sound.mp3 in Resources */,
 				68F5665C286ED6560068A5CE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,9 +316,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				688BD86E2877FBF700D9264A /* Notification+extension.swift in Sources */,
 				F00A2C91286BE36800ED57A8 /* VoicePlayingViewController.swift in Sources */,
-				F06B92612872BF7800A704AF /* Data+extension.swift in Sources */,
+				688035EB287916F300DC9047 /* FrequencyControlView.swift in Sources */,
 				F0D559DC286C1AEB0078BCF3 /* SoundManager.swift in Sources */,
 				F06B925D2872BA6B00A704AF /* AudioMetaData.swift in Sources */,
 				F06B925A2872A68400A704AF /* AudioFileManager.swift in Sources */,
@@ -324,8 +329,7 @@
 				F06B924D2870575A00A704AF /* RecordedVoiceTableViewCell.swift in Sources */,
 				F018C2A12877FC7900D7C9BE /* AudioPlotView.swift in Sources */,
 				F018C29D2877FB6000D7C9BE /* AudioVisualizeView.swift in Sources */,
-				F06B92562872A07C00A704AF /* FireStorageService.swift in Sources */,
-				F0D766F3286C4A38008A469F /* AVAudioPlayerNode+extension.swift in Sources */,
+				68C0E0F02879B659008469A4 /* PlayTime.swift in Sources */,
 				68E116D92872B82B00E962FD /* RecordViewController.swift in Sources */,
 				F00A2C98286BEF6C00ED57A8 /* PlayControlView.swift in Sources */,
 				F06B92492870572400A704AF /* RecordedVoiceListViewController.swift in Sources */,
@@ -469,10 +473,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QA5P85RJWN;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VoiceRecorder/Info.plist;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone permission is requried to record audio";
+				INFOPLIST_FILE = VoiceRecorder/Application/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone permission is required to record audio.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -481,7 +486,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.suyVoiceRecorder;
+				PRODUCT_BUNDLE_IDENTIFIER = net.yaggom.VoiceRecorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -498,10 +503,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QA5P85RJWN;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = VoiceRecorder/Info.plist;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone permission is requried to record audio";
+				INFOPLIST_FILE = VoiceRecorder/Application/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone permission is required to record audio.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

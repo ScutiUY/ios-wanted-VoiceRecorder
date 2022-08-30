@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseStorage
-import UIKit
 
 enum NetworkError: String {
     case uploadFailed = "오디오 파일을 서버에 업로드 할 수 없습니다."
@@ -34,13 +33,16 @@ class FirebaseStorageManager {
         let title = audioMetaData.title
         let duration = audioMetaData.duration
         let filePath = audioMetaData.url
-        
+        let waveforms = audioMetaData.waveforms.map{String($0)}.joined(separator: " ")
         let metaData = StorageMetadata()
+        
         let customData = [
             "title": title,
             "duration": duration,
-            "url": filePath
+            "url": filePath,
+            "waveforms": waveforms
         ]
+        
         metaData.customMetadata = customData
         metaData.contentType = "audio/x-caf"
         
@@ -74,7 +76,6 @@ class FirebaseStorageManager {
         baseReference.listAll { [unowned self] result, error in
             if let error = error {
                 delegate.firebaseStorageManager(error: error, desc: .allReferenceFailed)
-                
             }
             if let result = result {
                 completion(result.items)
@@ -96,8 +97,9 @@ class FirebaseStorageManager {
                 let title = data?["title"] ?? ""
                 let duration = data?["duration"] ?? "00:00"
                 let url = data?["url"] ?? title + ".caf"
+                let waveforms = data?["waveforms"]?.components(separatedBy: " ").map{Float($0)!} ?? []
                 
-                audioMetaDataList.append(AudioMetaData(title: title, duration: duration, url: url))
+                audioMetaDataList.append(AudioMetaData(title: title, duration: duration, url: url, waveforms: waveforms))
                 
                 if audioMetaDataList.count == filePath.count {
                     completion(audioMetaDataList)

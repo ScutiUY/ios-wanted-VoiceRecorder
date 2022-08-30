@@ -5,11 +5,16 @@
 //  Created by 신의연 on 2022/06/29.
 //
 
-
 import AVKit
 import Accelerate
 
 //TODO: - pitch enum 선언 필요
+
+enum PitchVariable: Int {
+    case middle = 0
+    case row = -150
+    case high = 150
+}
 
 enum PlayerType {
     case playBack
@@ -20,11 +25,15 @@ enum EdgeType {
     case end
 }
 
-protocol Visualizerable: AnyObject {
+protocol RecordingVisualizerable {
     func processAudioBuffer(buffer: AVAudioPCMBuffer)
 }
 
-protocol SoundManagerStatusReceivable: AnyObject {
+protocol PlaybackVisualizerable {
+    func operatingwaveProgression(progress: Float, audioLength: Float)
+}
+
+protocol SoundManagerStatusReceivable {
     func audioPlayerCurrentStatus(isPlaying: Bool)
     func audioFileInitializeErrorHandler(error: Error)
     func audioEngineInitializeErrorHandler(error: Error)
@@ -32,10 +41,9 @@ protocol SoundManagerStatusReceivable: AnyObject {
 
 class SoundManager {
     
-    // TODO: - play와 record의 프로퍼티 struct로 만들어서 관리
-    
-    weak var delegate: SoundManagerStatusReceivable?
-    weak var visualDelegate: Visualizerable!
+    var delegate: SoundManagerStatusReceivable?
+    var recordVisualizerDelegate: RecordingVisualizerable!
+    var playBackVisualizerDelegate: PlaybackVisualizerable!
     
     var isEnginePrepared = false
     private var isPlaying = false
@@ -44,11 +52,13 @@ class SoundManager {
     private var fileUrl: URL!
     private var audioFile: AVAudioFile!
     
+    private let recordEngine = AVAudioEngine()
+    
     private let engine = AVAudioEngine()
-    private lazy var inputNode = engine.inputNode
+    private lazy var inputNode = recordEngine.inputNode
     private let mixerNode = AVAudioMixerNode()
     
-    var frequency: Float = 40000
+    private var frequency: Float = 40000
     private let eqNode = AVAudioUnitEQ(numberOfBands: 1)
     private lazy var eqFilterParameters: AVAudioUnitEQFilterParameters = eqNode.bands[0] as AVAudioUnitEQFilterParameters
     
@@ -56,7 +66,6 @@ class SoundManager {
     private let pitchControl = AVAudioUnitTimePitch()
     
     private var audioSampleRate: Double = 0
-    private var audioPlayDuration: Double = 0
     private var seekFrame: AVAudioFramePosition = 0
     private var currentPosition: AVAudioFramePosition = 0
     private var audioLengthSamples: AVAudioFramePosition = 0
@@ -74,8 +83,10 @@ class SoundManager {
     // MARK: - initialize SoundManager
     func initializeSoundManager(url: URL, type: PlayerType) {
         do {
+            engine.reset()
+            playerNode.reset()
             fileUrl = url
-            // 모델 밖에서 생성 후 주입
+            
             if type == .playBack {
                 
                 let file = try AVAudioFile(forReading: url)
@@ -83,17 +94,13 @@ class SoundManager {
                 
                 audioLengthSamples = file.length
                 audioSampleRate = fileFormat.sampleRate
-                audioPlayDuration = Double(audioLengthSamples) / audioSampleRate
-                
                 audioFile = file
                 configurePlayEngine(format: fileFormat)
                 
             } else {
                 configureRecordEngine()
             }
-        } catch let error as NSError {
-            print("파일 초기화 에러")
-            delegate?.audioFileInitializeErrorHandler(error: error)
+        } catch let error as NSError {            delegate?.audioFileInitializeErrorHandler(error: error)
         }
     }
     
@@ -117,7 +124,6 @@ class SoundManager {
         }
     }
     
-    
     // MARK: - configure PlayerNode
     private func schedulePlayerNode() {
         guard let file = audioFile, needFileSchedule else {
@@ -131,13 +137,16 @@ class SoundManager {
         }
         
         playerNode.installTap(onBus: 0, bufferSize: 1024, format: playerNode.outputFormat(forBus: 0)) { [unowned self] buffer, time in
-            guard var currentPosition = getCurrentFrame(lastRenderTime: time) else { return }
-            currentPosition = specifyFrameStandard(frame: currentFrame + seekFrame, length: audioLengthSamples)
+            
+            
+            currentPosition = currentFrame + seekFrame
+            currentPosition = max(currentPosition, 0)
+            currentPosition = min(currentPosition, audioLengthSamples)
             
             if currentPosition >= audioLengthSamples {
                 resetPlayer(edge: .end)
-                delegate?.audioPlayerCurrentStatus(isPlaying: isPlaying)
             }
+            playBackVisualizerDelegate.operatingwaveProgression(progress: Float(currentPosition)/Float(audioLengthSamples), audioLength: Float(audioLengthSamples))
         }
     }
     
@@ -145,16 +154,7 @@ class SoundManager {
         guard let playerTime = playerNode.playerTime(forNodeTime: lastRenderTime) else { return nil }
         return playerTime.sampleTime
     }
-    
-    private func specifyFrameStandard(frame: AVAudioFramePosition, length: AVAudioFramePosition) -> AVAudioFramePosition {
-        var convertedFrame = frame
-        
-        convertedFrame = max(frame, 0)
-        convertedFrame = min(convertedFrame, length)
-        
-        return convertedFrame
-    }
-    
+   
     func playNpause() {
         if isPlaying {
             playerNode.pause()
@@ -185,21 +185,24 @@ class SoundManager {
         
         let offset = AVAudioFramePosition(time * audioSampleRate)
         seekFrame = currentPosition + offset
-        currentPosition = specifyFrameStandard(frame: seekFrame, length: audioLengthSamples)
+        seekFrame = max(seekFrame, 0)
+        seekFrame = min(seekFrame, audioLengthSamples)
+        currentPosition = seekFrame
         
         let wasPlaying = playerNode.isPlaying
-        
         playerNode.stop()
         
-        if currentPosition < 0 {
-            resetPlayer(edge: .start)
-            playerNode.scheduleFile(audioFile, at: nil)
-            if wasPlaying {
-                playerNode.play()
+        if currentPosition < audioLengthSamples {
+            
+            currentPosition = currentFrame + seekFrame
+            currentPosition = max(currentPosition, 0)
+            currentPosition = min(currentPosition, audioLengthSamples)
+            
+            if currentPosition >= audioLengthSamples {
+                playerNode.stop()
+                resetPlayer(edge: .end)
+                
             }
-            
-        } else if currentPosition < audioLengthSamples {
-            
             needFileSchedule = false
             
             let frameCount = AVAudioFrameCount(audioLengthSamples - seekFrame)
@@ -218,7 +221,6 @@ class SoundManager {
             
         } else {
             resetPlayer(edge: .end)
-            delegate?.audioPlayerCurrentStatus(isPlaying: isPlaying)
         }
     }
     
@@ -233,6 +235,8 @@ class SoundManager {
         case .end:
             needFileSchedule = true
             isPlaying = false
+            delegate?.audioPlayerCurrentStatus(isPlaying: isPlaying)
+            playBackVisualizerDelegate.operatingwaveProgression(progress: 0, audioLength: Float(audioLengthSamples))
         }
     }
     
@@ -245,8 +249,8 @@ class SoundManager {
         playerNode.removeTap(onBus: 0)
     }
     
-    func changePitchValue(value: Float) {
-        self.pitchControl.pitch = value * 2
+    func changePitchValue(value: PitchVariable) {
+        self.pitchControl.pitch = Float(value.rawValue * 2)
     }
     
     func changeVolume(value: Float) {
@@ -256,7 +260,6 @@ class SoundManager {
     func changeProgressValue(value: Float) {
         self.seek(to: Double(value))
     }
-    
 }
 
 extension SoundManager {
@@ -266,20 +269,19 @@ extension SoundManager {
         let format = inputNode.outputFormat(forBus: 0)
         mixerNode.volume = 0
         
-        engine.attach(mixerNode)
-        engine.attach(eqNode)
+        recordEngine.attach(mixerNode)
+        recordEngine.attach(eqNode)
         
-        engine.connect(inputNode, to: eqNode, format: format)
-        engine.connect(eqNode, to: mixerNode, format: format)
+        recordEngine.connect(inputNode, to: eqNode, format: format)
+        recordEngine.connect(eqNode, to: mixerNode, format: format)
     }
-    
     
     private func createAudioFile(filePath: URL) throws -> AVAudioFile {
         let format = inputNode.outputFormat(forBus: 0)
         return try AVAudioFile(forWriting: filePath, settings: format.settings)
     }
     
-    private func getAudioFile(filePath: URL) throws -> AVAudioFile {
+    func getAudioFile(filePath: URL) throws -> AVAudioFile {
         return try AVAudioFile(forReading: filePath)
     }
     
@@ -287,6 +289,10 @@ extension SoundManager {
         eqFilterParameters.filterType = .bandPass
         eqFilterParameters.bypass = false
         eqFilterParameters.frequency = frequency
+    }
+    
+    func setFrequencyValue(value: Float) {
+        frequency = value
     }
     
     func startRecord() {
@@ -304,14 +310,14 @@ extension SoundManager {
             do {
                 self.setFrequency()
                 try self.audioFile.write(from: buffer)
-                self.visualDelegate.processAudioBuffer(buffer: buffer)
-            } catch {
-                print("[error] : startRecord")
+                self.recordVisualizerDelegate.processAudioBuffer(buffer: buffer)
+            } catch let error {
+                self.delegate!.audioFileInitializeErrorHandler(error: error)
             }
         }
         
         do {
-            try engine.start()
+            try recordEngine.start()
         } catch {
             fatalError()
         }
@@ -319,40 +325,7 @@ extension SoundManager {
     
     func stopRecord() {
         mixerNode.removeTap(onBus: 0)
-        engine.stop()
+        recordEngine.stop()
         isEnginePrepared = false
-    }
-}
-
-extension SoundManager {
-    
-    // - MARK: playTime
-    
-    func totalPlayTime(date: String) -> Double {
-        let audioFileManager = AudioFileManager()
-        let url = audioFileManager.getAudioFilePath(fileName: date)
-        do {
-            audioFile = try getAudioFile(filePath: url)
-        } catch {
-            print("[error] : totalPlayTime")
-        }
-        
-        let length = audioFile.length
-        let sampleRate = audioFile.processingFormat.sampleRate
-        let audioPlayTime = Double(length) / sampleRate
-        
-        return audioPlayTime
-    }
-    
-    func convertTimeToString(_ seconds: TimeInterval) -> String {
-        if seconds.isNaN {
-            return "00:00"
-        }
-        
-        let min = Int(seconds / 60)
-        let sec = Int(seconds.truncatingRemainder(dividingBy: 60))
-        let strTime = String(format: "%02d:%02d", min, sec)
-        
-        return strTime
     }
 }

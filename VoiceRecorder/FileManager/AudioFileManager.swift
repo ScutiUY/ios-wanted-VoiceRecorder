@@ -25,10 +25,10 @@ class AudioFileManager {
     private let directoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Recorded_Voice")
     
     init() {
-        initalizeFileFolder()
+        initializeFileFolder()
     }
     
-    private func initalizeFileFolder() {
+    private func initializeFileFolder() {
         guard !fileManager.fileExists(atPath: directoryPath.path) else { return }
         createDic()
     }

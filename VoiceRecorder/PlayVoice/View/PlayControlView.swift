@@ -14,7 +14,6 @@ protocol SoundButtonActionDelegate: AnyObject {
     func forwardTouchUpinside(sender: UIButton)
 }
 
-
 class PlayControlView: UIStackView {
     
     weak var delegate: SoundButtonActionDelegate?
@@ -28,6 +27,15 @@ class PlayControlView: UIStackView {
         }
     }
     
+    var isPlayButtonActivate: Bool {
+        get {
+            return playButton.isEnabled
+        }
+        set {
+            playButton.isEnabled = newValue
+        }
+    }
+
     private var playButton: UIButton = {
         var button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
@@ -35,14 +43,12 @@ class PlayControlView: UIStackView {
         let largePauseImage = UIImage(systemName: "pause.fill", withConfiguration: largeConfig)
         button.setImage(largePlayImage, for: .normal)
         button.setImage(largePauseImage, for: .selected)
-        
         return button
     }()
     
     private var backwardButton: UIButton = {
         var button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
-        
         let largebackwardImage = UIImage(systemName: "gobackward.5", withConfiguration: largeConfig)
         button.setImage(largebackwardImage, for: .normal)
         return button
@@ -53,15 +59,15 @@ class PlayControlView: UIStackView {
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .large)
         let largeforkwardImage = UIImage(systemName: "goforward.5", withConfiguration: largeConfig)
         button.setImage(largeforkwardImage, for: .normal)
-     
         return button
     }()
         
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        
         configureProperties()
-        addTargetToButtons()
         setLayoutOfPlayControlView()
+        addTargetToButtons()
     }
     
     required init(coder: NSCoder) {
@@ -75,7 +81,6 @@ class PlayControlView: UIStackView {
     }
     
     private func setLayoutOfPlayControlView() {
-        
         playButton.translatesAutoresizingMaskIntoConstraints = false
         backwardButton.translatesAutoresizingMaskIntoConstraints = false
         forwardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -94,9 +99,7 @@ class PlayControlView: UIStackView {
             
             forwardButton.widthAnchor.constraint(equalToConstant: 50),
             forwardButton.heightAnchor.constraint(equalToConstant: 50)
-        
         ])
-        
     }
     
     private func addTargetToButtons() {
@@ -105,15 +108,15 @@ class PlayControlView: UIStackView {
         forwardButton.addTarget(self, action: #selector(forwardButtonHandler), for: .touchUpInside)
     }
     
-    
-    // button actions
     @objc func playButtonHandler() {
         delegate?.playButtonTouchUpinside(sender: playButton)
         playButton.isSelected.toggle()
     }
+    
     @objc func backwardButtonHandler() {
         delegate?.backwardButtonTouchUpinside(sender: backwardButton)
     }
+    
     @objc func forwardButtonHandler() {
         delegate?.forwardTouchUpinside(sender: forwardButton)
     }

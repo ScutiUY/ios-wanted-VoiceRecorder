@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol SoundButtonActionDelegate {
+protocol SoundButtonActionDelegate: AnyObject {
     func playButtonTouchUpinside(sender: UIButton)
     func backwardButtonTouchUpinside(sender: UIButton)
     func forwardTouchUpinside(sender: UIButton)
@@ -17,7 +17,7 @@ protocol SoundButtonActionDelegate {
 
 class PlayControlView: UIStackView {
     
-    var delegate: SoundButtonActionDelegate?
+    weak var delegate: SoundButtonActionDelegate?
     
     var isSelected: Bool {
         get {

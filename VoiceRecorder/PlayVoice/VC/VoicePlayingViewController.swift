@@ -56,27 +56,6 @@ class VoicePlayingViewController: UIViewController {
         view.delegate = self
         return view
     }()
-//    
-//    init() {
-//        super.init(frame: CGRectZero, style: UITableViewStyle.Plain)
-//        initialize()
-//    }
-//    required init(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        initialize()
-//    }
-//    
-//    init(frame: CGRect) {
-//        super.init(frame: frame, style: UITableViewStyle.Plain)
-//        initialize()
-//    }
-//    
-//    override init(frame: CGRect, style: UITableViewStyle) {
-//        super.init(frame: frame, style: style)
-//        initialize()
-//    }
-//    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLayoutOfVoicePlayVC()
@@ -203,7 +182,6 @@ extension VoicePlayingViewController: SoundManagerStatusReceivable {
         soundManager.removeTap()
         DispatchQueue.main.async {
             self.playControlView.isSelected = isPlaying
-            
         }
     }
     

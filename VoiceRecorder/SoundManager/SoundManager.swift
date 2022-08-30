@@ -20,11 +20,11 @@ enum EdgeType {
     case end
 }
 
-protocol Visualizerable {
+protocol Visualizerable: AnyObject {
     func processAudioBuffer(buffer: AVAudioPCMBuffer)
 }
 
-protocol SoundManagerStatusReceivable {
+protocol SoundManagerStatusReceivable: AnyObject {
     func audioPlayerCurrentStatus(isPlaying: Bool)
     func audioFileInitializeErrorHandler(error: Error)
     func audioEngineInitializeErrorHandler(error: Error)
@@ -34,8 +34,8 @@ class SoundManager {
     
     // TODO: - play와 record의 프로퍼티 struct로 만들어서 관리
     
-    var delegate: SoundManagerStatusReceivable?
-    var visualDelegate: Visualizerable!
+    weak var delegate: SoundManagerStatusReceivable?
+    weak var visualDelegate: Visualizerable!
     
     var isEnginePrepared = false
     private var isPlaying = false

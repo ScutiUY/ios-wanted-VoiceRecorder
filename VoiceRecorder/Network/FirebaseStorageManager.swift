@@ -16,13 +16,13 @@ enum NetworkError: String {
     case MetaDataFailed = "파일 메타데이터 가져오기 실패!"
 }
 
-protocol NetworkStatusReceivable {
+protocol NetworkStatusReceivable: AnyObject {
     func firebaseStorageManager(error: Error, desc: NetworkError)
 }
 
 class FirebaseStorageManager {
     
-    var delegate: NetworkStatusReceivable!
+    weak var delegate: NetworkStatusReceivable!
     
     private var baseReference: StorageReference!
     

@@ -7,15 +7,9 @@
 
 import UIKit
 
-protocol a {
-    func d()
-}
-
 class AudioPlotView: UIView {
     
-    var delegate: a!
-    
-    var caLayer: CAShapeLayer!
+    private var caLayer: CAShapeLayer!
     // MARK: - Vars
     
     /// Bar width
@@ -34,11 +28,11 @@ class AudioPlotView: UIView {
     }
     
     /// Color for bars
-    var color = UIColor.gray.cgColor
+    private var color = UIColor.gray.cgColor
     
     /// Given waveforms
     var waveforms = [Int]()
-    var count = 0
+    private var count = 0
     
     // MARK: - Init
     
@@ -71,6 +65,7 @@ class AudioPlotView: UIView {
             layer.transform = transform
         }
     }
+    
     public func shiftWaveform() {
         guard let sublayers = self.layer.sublayers else { return }
         for layer in sublayers {
@@ -79,6 +74,7 @@ class AudioPlotView: UIView {
         }
         
     }
+    
     func shiftBackward(value: CGFloat) {
         guard let sublayers = self.layer.sublayers else { return }
         for layer in sublayers {
@@ -88,9 +84,11 @@ class AudioPlotView: UIView {
         }
         
     }
+    
     func move() {
         caLayer.scroll(CGPoint(x: 100, y: 300))
     }
+    
     override func draw(_ rect: CGRect) {
         shiftWaveform()
         count += 1

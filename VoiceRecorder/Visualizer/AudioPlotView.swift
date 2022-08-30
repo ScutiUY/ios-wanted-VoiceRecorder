@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol VisualizerStatusReceivable {
+protocol VisualizerStatusReceivable: AnyObject {
     func visualizer(auidoPlotView: UIView)
 }
 
@@ -18,9 +18,8 @@ enum PlayType {
 
 class AudioPlotView: UIView {
 
-    var delegate: VisualizerStatusReceivable!
-    var caLayer: CAShapeLayer!
-    var barWidth: CGFloat = 4.0
+    weak var delegate: VisualizerStatusReceivable!
+    private var caLayer: CAShapeLayer!
     
     var active = false {
         didSet {

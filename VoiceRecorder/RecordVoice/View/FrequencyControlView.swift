@@ -8,13 +8,13 @@
 import Foundation
 import UIKit
 
-protocol SliderEvnetDelegate {
+protocol SliderEvnetDelegate: AnyObject {
     func sliderEventValueChanged(sender: UISlider)
 }
 
 class FrequencyControlView: UIStackView {
     
-    var delegate: SliderEvnetDelegate?
+    weak var delegate: SliderEvnetDelegate?
     
     private var sliderFrequency: UISlider = {
         let slider = UISlider()

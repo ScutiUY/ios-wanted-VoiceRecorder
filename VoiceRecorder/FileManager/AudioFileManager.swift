@@ -13,13 +13,13 @@ enum FileError: String {
     case canNotCreateDic = "폴더를 생성할 수 없습니다."
 }
 
-protocol FileStatusReceivable {
+protocol FileStatusReceivable: AnyObject {
     func fileManager(_ fileManager: FileManager, error: FileError, desc: Error?)
 }
 
 class AudioFileManager {
     
-    var delegate: FileStatusReceivable!
+    weak var delegate: FileStatusReceivable!
     
     private let fileManager = FileManager.default
     private let directoryPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Recorded_Voice")

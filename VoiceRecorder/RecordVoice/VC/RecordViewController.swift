@@ -8,13 +8,13 @@
 import UIKit
 import AVFoundation
 
-protocol PassMetaDataDelegate {
+protocol PassMetaDataDelegate: AnyObject {
     func sendMetaData(audioMetaData: AudioMetaData)
 }
 
 class RecordViewController: UIViewController {
     
-    var delegate: PassMetaDataDelegate!
+    weak var delegate: PassMetaDataDelegate!
     
     private let soundManager = SoundManager()
     private let audioFileManager = AudioFileManager()

@@ -25,15 +25,15 @@ enum EdgeType {
     case end
 }
 
-protocol RecordingVisualizerable {
+protocol RecordingVisualizerable: AnyObject {
     func processAudioBuffer(buffer: AVAudioPCMBuffer)
 }
 
-protocol PlaybackVisualizerable {
+protocol PlaybackVisualizerable: AnyObject {
     func operatingwaveProgression(progress: Float, audioLength: Float)
 }
 
-protocol SoundManagerStatusReceivable {
+protocol SoundManagerStatusReceivable: AnyObject {
     func audioPlayerCurrentStatus(isPlaying: Bool)
     func audioFileInitializeErrorHandler(error: Error)
     func audioEngineInitializeErrorHandler(error: Error)
@@ -41,9 +41,9 @@ protocol SoundManagerStatusReceivable {
 
 class SoundManager {
     
-    var delegate: SoundManagerStatusReceivable?
-    var recordVisualizerDelegate: RecordingVisualizerable!
-    var playBackVisualizerDelegate: PlaybackVisualizerable!
+    weak var delegate: SoundManagerStatusReceivable?
+    weak var recordVisualizerDelegate: RecordingVisualizerable!
+    weak var playBackVisualizerDelegate: PlaybackVisualizerable!
     
     var isEnginePrepared = false
     private var isPlaying = false
